@@ -1,43 +1,72 @@
-/* Assignment 04: Finishing a Todo List App
- *
- * 
- *
- */
+window.addEventListener('load', () => {
+    const form = document.querySelector("#new-task-form");
+    const input = document.querySelector("#new-task-input");
+    const list_el = document.querySelector("#tasks");
 
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-//
-// Variables
-//
+        const task = input.value;
+        console.log('Submitted task:', task);
 
-// Constants
-const appID = "app";
-const headingText = "To do. To done. ✅";
+        const task_el = document.createElement('div');
+        task_el.classList.add('task');
 
-// DOM Elements
-let appContainer = document.getElementById(appID);
+        const task_content_el = document.createElement('div');
+        task_content_el.classList.add('content');
 
-//
-// Functions
-//
+        task_el.appendChild(task_content_el);
 
-// Add a heading to the app container
-function inititialise() {
-  // If anything is wrong with the app container then end
-  if (!appContainer) {
-    console.error("Error: Could not find app contianer");
-    return;
-  }
+        const task_input_el = document.createElement('input');
+        task_input_el.classList.add('text');
+        task_input_el.type = 'text';
+        task_input_el.value = task;
+        task_input_el.setAttribute('readonly', 'readonly');
 
-  // Create an h1 and add it to our app
-  const h1 = document.createElement("h1");
-  h1.innerText = headingText;
-  appContainer.appendChild(h1);
+        task_content_el.appendChild(task_input_el);
 
-  // Init complete
-  console.log("App successfully initialised");
-}
+        const task_actions_el = document.createElement('div');
+        task_actions_el.classList.add('actions');
 
-//
-// Inits & Event Listeners
-//
-inititialise();
+        const task_edit_el = document.createElement('button');
+        task_edit_el.classList.add('edit');
+        task_edit_el.innerText = 'Edit';
+
+        const task_delete_el = document.createElement('button');
+        task_delete_el.classList.add('delete');
+        task_delete_el.innerText = 'Delete';
+
+        task_actions_el.appendChild(task_edit_el);
+        task_actions_el.appendChild(task_delete_el);
+
+        task_el.appendChild(task_actions_el);
+
+        list_el.appendChild(task_el);
+        console.log('Task added to the list.');
+
+        input.value = '';
+        console.log('Input field cleared.');
+
+        task_edit_el.addEventListener('click', (e) => {
+            if (task_edit_el.innerText.toLowerCase() == "edit") {
+                task_edit_el.innerText = "Save";
+                task_input_el.removeAttribute("readonly");
+                task_input_el.focus();
+            } else {
+                task_edit_el.innerText = "Edit";
+                task_input_el.setAttribute("readonly", "readonly");
+            }
+        });
+
+        task_delete_el.addEventListener('click', (e) => {
+            list_el.removeChild(task_el);
+            console.log('Task deleted from the list.');
+        });
+    });
+});
+
+//Copied these videos and made this for the assignment
+//https://www.youtube.com/watch?v=cijPd-TXPn4&t=1s
+//https://www.youtube.com/watch?v=CsO0UJSqaw0&t=1s
+//https://www.youtube.com/watch?v=JB2TZco4i84&t=270s
+//+041https://www.youtube.com/watch?v=MkESyVB4oUw&t=1413s//
